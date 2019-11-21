@@ -1,9 +1,11 @@
-CXXFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-	-fno-pic -std=c++14 -fno-rtti -fno-exceptions -Wall -Wextra
-LDFLAGS = --Ttext 0x0 --oformat binary -m elf_i386
-LD = ld
+include ../../Makefile.config
+
+LDFLAGS = --Ttext 0x0 		\
+ 		  --oformat binary 	\
+ 		  -m elf_i386
 
 programs = shell IdleProcess prog1 error input
+
 header_files = $(programs:=.bin.h)
 bin_files = $(programs:=.bin)
 
