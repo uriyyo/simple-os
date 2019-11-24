@@ -8,11 +8,6 @@
 #include "fileSystem.h"
 #include "kernelHeap.h"
 #include "processScheduler.h"
-#include "io.hh"
-#include "pci.hh"
-#include "types.hh"
-
-void print_device_info();
 
 extern "C" int kmain()
 {
@@ -52,8 +47,6 @@ extern "C" int kmain()
     pidShell = create_process("shell.exe");
     resume_process(pidShell);
 
-    print_device_info();
-
     start_processScheduler();
 
     while (1)
@@ -61,18 +54,4 @@ extern "C" int kmain()
     }
 
     return 0;
-}
-
-void print_device_info()
-{
-    using namespace sos;
-    using types::u8;
-
-    kprintf("PCI Bus 0 devices:\n");
-    for (u8 i = 0; i < 32; ++i) {
-        auto header = pci::read_device_info(0, i);
-        if (header.vendor_id != 0xFFFF) {
-            kprintf("    0x%x:0x%x\n", header.vendor_id, header.device_id);
-        }
-    }
 }
