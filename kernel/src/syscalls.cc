@@ -43,6 +43,11 @@ void handle_systemCall(IntRegisters *regs)
             resume_process(get_runningProcess());
             break;
 
+        case SYSCALL_CLEAR_SCREEN:
+            clear_screen();
+            resume_process(get_runningProcess());
+            break;
+
         default:
             kprintf("@----Kernel---- Unknown system call\n");
             break;

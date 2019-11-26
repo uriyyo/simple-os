@@ -11,6 +11,7 @@
 #define SYSCALL_EXEC_PROGRAM 105 //execute program
 #define SYSCALL_TERMINATE_PROCESS 106 //terminate running process
 #define SYSCALL_PRINT_PROCESSES 107
+#define SYSCALL_CLEAR_SCREEN 108 //clear screen content
 
 void handle_systemCall(IntRegisters *regs);
 void syscall_exit();

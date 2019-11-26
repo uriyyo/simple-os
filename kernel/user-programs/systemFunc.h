@@ -8,6 +8,7 @@ void *umalloc(unsigned int size);
 void ufree(void *addr);
 unsigned int uexec(char *program);
 void ukill(unsigned int pid);
+void uclear_screen();
 void print_processes();
 
 #endif

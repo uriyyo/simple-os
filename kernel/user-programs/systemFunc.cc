@@ -89,6 +89,14 @@ void ukill(unsigned int pid)
         );
 }
 
+void uclear_screen(){
+    asm("mov %0, %%eax;"
+        "int $0x80"
+    : : "r" (SYSCALL_CLEAR_SCREEN)
+    : "eax"
+    );
+}
+
 void print_processes()
 {
     asm("mov %0, %%eax;"
