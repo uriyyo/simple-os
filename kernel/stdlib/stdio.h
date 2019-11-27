@@ -14,6 +14,7 @@ void kprintf(const char* str, ...);
 
 void console_scroll(int lineCount);
 void clear_screen();
+void console_remove(int count);
 
 void outb(short port, char byte);
 void outw(short port, short word);

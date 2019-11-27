@@ -4,7 +4,6 @@
 
 #include "../src/paging.h"
 
-int currentLine = 0; //unused
 int consoleCursorPos = 0;
 unsigned short videoMemorySegment = 0x18; //video memory segment selector
 
@@ -73,6 +72,18 @@ void kprintf(const char* str, ...)
      kprint(formatedStr);
 }
 
+void console_remove(int characterCount){
+    //calculate new position of console cursor
+    int newPosition = consoleCursorPos - characterCount * SCREEN_BYTES_PER_SYMBOL;
+    consoleCursorPos = newPosition;
+
+    for (int i = 0; i < characterCount; i++){
+        kprint(" ");
+    }
+
+    consoleCursorPos = newPosition;
+}
+
 void console_scroll(int lineCount)
 {
     int bytesToCopy;
@@ -107,7 +118,7 @@ void console_scroll(int lineCount)
 void clear_screen()
 {
     console_scroll(SCREEN_LINE_COUNT);
-    currentLine = 0;
+    consoleCursorPos = 0;
 }
 
 void outb(short port, char byte)

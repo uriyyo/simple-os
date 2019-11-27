@@ -40,6 +40,18 @@ void key_pressed(unsigned char scanCode)
     char symbol;
 
     symbol = scancode_toSymbol(scanCode);
+
+    //when backspace pressed should remove last character from screen
+    if (symbol == ASCII_BACKSPACE) {
+        if (keyboardBufferPos > 0) {
+            console_remove(1); //remove last character from screen
+            keyboardBufferPos--;
+            keyboardBuffer[keyboardBufferPos] = 0;
+        }
+
+        return;
+    }
+
     kprintf("%c", symbol);
     keyboardBuffer[keyboardBufferPos] = symbol;
     keyboardBufferPos++;
