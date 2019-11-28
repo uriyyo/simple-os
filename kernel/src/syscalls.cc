@@ -65,7 +65,11 @@ void syscall_print(IntRegisters *regs)
     PID pid;
 
     pid = get_runningProcess();
+#ifdef SHOW_PROCESS_PID
     kprintf("%s(0x%x): %s", pid->processName, pid->pid, (char*)regs->esi);
+#else
+    kprintf("%s", (char*)regs->esi);
+#endif
     resume_process(get_runningProcess());
 }
 
