@@ -1,7 +1,7 @@
 #include "systemFunc.h"
 #include "../stdlib/stdlib.h"
 
-void print_help();
+#define IS_CMD(line, cmd) ((unsigned int) strstr(line, cmd) == (unsigned int) line)
 
 int start()
 {
@@ -13,36 +13,30 @@ int start()
 
     while (1)
     {
+        uprintf("> ");
         ureadln(line);
-        uprintf("Parsing message...\n");
 
-        if ((unsigned int)strstr(line, "help") == (unsigned int)line)
-            print_help();
-
-        if ((unsigned int)strstr(line, "exec") == (unsigned int)line)
+        if (IS_CMD(line, "help")) {
+            uprintf("All commands:\n");
+            uprintf("help           - show this text\n");
+            uprintf("exec file_name - run the specified program\n");
+            uprintf("kill pid       - kills process\n");
+            uprintf("all            - list all processes\n");
+            uprintf("clear          - clear screen\n");
+        } else if (IS_CMD(line, "exec")) {
             uprintf("pid: 0x%x\n", uexec((char*)(line + strlen("exec") + 1)));
 
-        if ((unsigned int)strstr(line, "kill") == (unsigned int)line)
-        {
+        } else if (IS_CMD(line, "kill")) {
             temp = str_toIntHex(line + strlen("kill") + 1);
             if (temp != 0)
                 ukill(temp);
             uprintf("process killed: 0x%x\n", temp);
-        }
-
-        if ((unsigned int)strstr(line, "all") == (unsigned int)line)
+        } else if (IS_CMD(line, "all")) {
             print_processes();
+        } else if (IS_CMD(line, "clear")) {
+            uclear_screen();
+        } else {
+            uprintf("unknown command %s\n", line);
+        }
     }
-    uexit();
-}
-
-void print_help()
-{
-    uprintf("--------------------------------------------\n");
-    uprintf("All commands:\n");
-    uprintf("help - show this text\n");
-    uprintf("exec file_name - run the specified program\n");
-    uprintf("kill pid - kills process\n");
-    uprintf("all - list all processes\n");
-    uprintf("--------------------------------------------\n");
 }
